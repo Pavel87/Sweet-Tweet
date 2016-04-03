@@ -1,6 +1,7 @@
 package com.pacmac.sweettweet;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout refreshLayout = null;
     private boolean isInitialized = false;
 
+    private ProgressDialog pDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,11 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
 
         searchParam = getSearchParam();
-
+        pDialog = new ProgressDialog(this);
+        pDialog = ProgressDialog.show(this,null,null);
+        pDialog.setContentView(R.layout.progress_dialog);
+        pDialog.setCancelable(false);
+        pDialog.show();
 
         final TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
@@ -105,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        refreshLayout.setRefreshing(true);
 
     }
 
@@ -136,12 +141,12 @@ public class MainActivity extends AppCompatActivity {
                 adapter.updateTweetList(result.data.tweets);
                 adapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
+                pDialog.hide();
             }
 
             @Override
             public void failure(TwitterException e) {
                 e.printStackTrace();
-                refreshLayout.setRefreshing(false);
                 showError();
             }
         });
@@ -149,6 +154,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void showError() {
+        pDialog.hide();
+        refreshLayout.setRefreshing(false);
         Toast.makeText(getApplicationContext(), "Check your connectivity", Toast.LENGTH_SHORT).show();
     }
 
