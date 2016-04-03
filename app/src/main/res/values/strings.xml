@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Sweet Tweet</string>
+    <string name="app_detail">Tweet Detail</string>
+    <string name="search">SEARCH</string>
+    <string name="cancel">CANCEL</string>
+    <string name="search_title">Search Tweets</string>
+    <string name="action_settings">Settings</string>
+    <string name="search_hint">i.e.space</string>
+</resources>
