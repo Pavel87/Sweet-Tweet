@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
                     if (isConnected) {
                         getTwitterApiClient();
                     } else {
-                        refreshLayout.setRefreshing(false);
                         showError();
                     }
                 }
@@ -177,12 +176,11 @@ public class MainActivity extends AppCompatActivity {
                     searchParam = result;
                     saveSearchParam();
                     dialog.dismiss();
+                    refreshLayout.setRefreshing(true);
                     if (isInitialized) {
-                        refreshLayout.setRefreshing(true);
                         searchOnTwitter();
 
                     } else {
-                        refreshLayout.setRefreshing(true);
                         getTwitterApiClient();
                     }
 
